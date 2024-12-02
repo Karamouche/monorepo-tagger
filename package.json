@@ -18,19 +18,28 @@
 			"type": "object",
 			"title": "Monorepo Tagger Configuration",
 			"properties": {
-			"monorepo-tagger.folderTagMap": {
-				"type": "object",
-				"description": "Mapping of folder names to tags. If a folder is not listed, its name will be used as the tag by default.",
-				"default": {}
-			},
-			"monorepo-tagger.excludeFolders": {
-				"type": "array",
-				"items": {
-				"type": "string"
+				"monorepo-tagger.folderTagMap": {
+					"type": "object",
+					"description": "Mapping of folder names to tags. If a folder is not listed, its name will be used as the tag by default.",
+					"default": {}
 				},
-				"description": "List of folder names to exclude from tagging.",
-				"default": []
-			}
+				"monorepo-tagger.excludeFolders": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "List of folder names to exclude from tagging.",
+					"default": []
+				},
+				"monorepo-tagger.tagEnclosure": {
+					"type": "string",
+					"enum": [
+						"parentheses",
+						"brackets"
+					],
+					"default": "parentheses",
+					"description": "Choose whether to enclose tags in parentheses '()' or brackets '[]'."
+				}
 			}
 		}
 	},
