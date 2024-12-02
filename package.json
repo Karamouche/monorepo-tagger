@@ -2,7 +2,8 @@
 	"name": "monorepo-tagger",
 	"displayName": "monorepo tagger",
 	"description": "Prepends a tag to commit messages based on the monorepo folder.",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"icon": "icon.png",
 	"engines": {
 		"vscode": "^1.95.0"
 	},
