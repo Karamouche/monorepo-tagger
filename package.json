@@ -1,0 +1,50 @@
+{
+	"name": "monorepo-tagger",
+	"displayName": "monorepo tagger",
+	"description": "Prepends a tag to commit messages based on the monorepo folder.",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.95.0"
+	},
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "monorepo-tagger.commitWithTag",
+				"title": "Commit with Tag"
+			}
+		]
+	},
+	"configuration": {
+		"type": "object",
+		"title": "Monorepo Tagger Configuration",
+		"properties": {
+		  "monorepo-tagger.folderTagMap": {
+			"type": "object",
+			"description": "Mapping of folder names to tags. If a folder is not listed, its name will be used as the tag by default.",
+			"default": {}
+		  },
+		  "monorepo-tagger.excludeFolders": {
+			"type": "array",
+			"items": {
+			  "type": "string"
+			},
+			"description": "List of folder names to exclude from tagging.",
+			"default": []
+		  }
+		}
+	  },
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "yarn run lint",
+		"test": "vscode-test"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.95.0",
+		"@types/mocha": "^10.0.9",
+		"@types/node": "20.x",
+		"eslint": "^9.13.0",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1"
+	}
+}
