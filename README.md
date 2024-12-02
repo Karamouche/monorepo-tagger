@@ -1,65 +1,47 @@
-# monorepo-tagger README
+# Monorepo Tagger
 
-This is the README for your extension "monorepo-tagger". After writing up a brief description, we recommend including the following sections.
+**Monorepo Tagger** is a Visual Studio Code extension that prepends a tag to your Git commit messages based on the highest-level folder in your project (relative to the workspace root). This is especially useful in monorepo setups where you want to categorize commits by the part of the project they affect.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+-   **Automatic Tagging**: Automatically adds a tag to your commit messages based on the folder you're working in.
+-   **Custom Folder-to-Tag Mapping**: Define custom tags for specific folders using the `folderTagMap` setting.
+-   **Exclude Folders from Tagging**: Specify folders to exclude from tagging using the `excludeFolders` setting.
+-   **Tag Enclosure Options**: Choose whether to enclose tags in parentheses `()` or brackets `[]` using the `tagEnclosure` setting.
+-   **Integration with Git Source Control**: Pre-fills the commit message in the Git Source Control view, allowing you to review and edit before committing.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+-   Visual Studio Code version **1.95.0** or higher.
+-   Git must be installed and accessible from the command line.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+-   `monorepo-tagger.folderTagMap`: An object mapping folder names to custom tags. If a folder is not listed, its name will be used as the tag by default.
 
-## Known Issues
+    ```json
+    // Example in settings.json
+    "monorepo-tagger.folderTagMap": {
+      "transcription-method": "asr",
+      "analytics": "analytics-tag"
+    }
+    ```
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+-   `monorepo-tagger.excludeFolders`: An array of folder names to exclude from tagging.
 
-## Release Notes
+```json
+// Example in settings.json
+"monorepo-tagger.excludeFolders": [
+  "common-utils",
+  "scripts"
+]
+```
 
-Users appreciate release notes as you update your extension.
+-   `monorepo-tagger.tagEnclosure`: Choose whether to enclose tags in parentheses `()` or brackets `[]`
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```json
+// Example in settings.json
+"monorepo-tagger.tagEnclosure": "brackets" // Options: "parentheses", "brackets"
+```
