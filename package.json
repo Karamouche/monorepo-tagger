@@ -1,25 +1,40 @@
 {
 	"name": "monorepo-tagger",
-	"displayName": "monorepo tagger",
+	"displayName": "Monorepo Tagger",
 	"description": "Prepends a tag to commit messages based on the monorepo folder.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"icon": "icon.png",
+	"publisher": "karamouche",
 	"engines": {
 		"vscode": "^1.95.0"
 	},
-	"publisher": "karamouche",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Karamouche/monorepo-tagger"
 	},
 	"main": "./extension.js",
+	"activationEvents": [
+		"onCommand:monorepo-tagger.insertTag",
+		"onView:scm"
+	],
 	"contributes": {
 		"commands": [
 			{
-				"command": "monorepo-tagger.commitWithTag",
-				"title": "Commit with Tag"
+				"command": "monorepo-tagger.insertTag",
+				"title": "Insert Tag into Commit Message",
+				"category": "Monorepo Tagger",
+				"icon": "$(tag)"
 			}
 		],
+		"menus": {
+			"scm/title": [
+				{
+					"command": "monorepo-tagger.insertTag",
+					"when": "scmProvider == git",
+					"group": "navigation"
+				}
+			]
+		},
 		"configuration": {
 			"type": "object",
 			"title": "Monorepo Tagger Configuration",
@@ -49,6 +64,16 @@
 			}
 		}
 	},
+	"keywords": [
+		"git",
+		"tag",
+		"monorepo",
+		"tagger",
+		"monorepo tagger"
+	],
+	"categories": [
+		"Other"
+	],
 	"scripts": {
 		"lint": "eslint .",
 		"pretest": "yarn run lint",

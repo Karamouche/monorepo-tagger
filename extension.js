@@ -1,20 +1,19 @@
+// extension.js
 const vscode = require("vscode");
 const path = require("path");
 
 function activate(context) {
-	let disposable = vscode.commands.registerCommand(
-		"monorepo-tagger.commitWithTag",
+	const disposableCommand = vscode.commands.registerCommand(
+		"monorepo-tagger.insertTag",
 		async () => {
-			const workspaceFolders = vscode.workspace.workspaceFolders;
-			if (!workspaceFolders) {
-				vscode.window.showErrorMessage("No workspace folder open.");
-				return;
-			}
+			const gitExtension =
+				vscode.extensions.getExtension("vscode.git").exports;
+			const gitApi = gitExtension.getAPI(1);
 
 			const activeEditor = vscode.window.activeTextEditor;
 			const filePath = activeEditor
 				? activeEditor.document.fileName
-				: workspaceFolders[0].uri.fsPath;
+				: vscode.workspace.workspaceFolders[0].uri.fsPath;
 
 			const workspaceFolder = vscode.workspace.getWorkspaceFolder(
 				vscode.Uri.file(filePath)
@@ -27,14 +26,12 @@ function activate(context) {
 				return;
 			}
 
-			// Get the relative path from the workspace root to the file
+			// Get the highest-level folder name
 			const relativePath = path.relative(
 				workspaceFolder.uri.fsPath,
 				filePath
 			);
 			const pathSegments = relativePath.split(path.sep);
-
-			// The highest-level folder is the first segment of the relative path
 			const folderName = pathSegments.length > 1 ? pathSegments[0] : null;
 
 			const config = vscode.workspace.getConfiguration("monorepo-tagger");
@@ -43,9 +40,9 @@ function activate(context) {
 			const tagEnclosure = config.get("tagEnclosure", "parentheses");
 
 			if (folderName && excludeFolders.includes(folderName)) {
-				// Proceed without a tag
-				// Show Source Control view
-				vscode.commands.executeCommand("workbench.view.scm");
+				vscode.window.showInformationMessage(
+					"Current folder is excluded from tagging."
+				);
 				return;
 			}
 
@@ -63,16 +60,14 @@ function activate(context) {
 				} else if (tagEnclosure === "brackets") {
 					tag = `[${tag}]`;
 				}
-			}
-
-			// Access the SCM input box
-			const gitExtension = vscode.extensions.getExtension("vscode.git");
-			if (!gitExtension) {
-				vscode.window.showErrorMessage("Git extension not found.");
+			} else {
+				vscode.window.showErrorMessage(
+					"Unable to determine tag for the current file."
+				);
 				return;
 			}
 
-			const gitApi = gitExtension.exports.getAPI(1);
+			// Find the repository for the current file
 			const repo = gitApi.repositories.find((r) =>
 				filePath.startsWith(r.rootUri.fsPath)
 			);
@@ -83,15 +78,20 @@ function activate(context) {
 				return;
 			}
 
-			// Set the commit message
-			repo.inputBox.value = `${tag} `;
+			// Insert the tag into the commit message input box
+			const currentMessage = repo.inputBox.value;
+
+			// Avoid duplicating the tag
+			if (!currentMessage.startsWith(tag)) {
+				repo.inputBox.value = `${tag} ${currentMessage}`;
+			}
 
 			// Show Source Control view
 			vscode.commands.executeCommand("workbench.view.scm");
 		}
 	);
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposableCommand);
 }
 
 function deactivate() {}

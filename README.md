@@ -15,6 +15,25 @@
 -   Visual Studio Code version **1.95.0** or higher.
 -   Git must be installed and accessible from the command line.
 
+## Usage
+
+1. **Open the Source Control View**: Click on the Source Control icon in the Activity Bar.
+
+2. **Insert Tag into Commit Message**:
+
+    - In the commit message input box, you'll see a button labeled **Insert Tag into Commit Message**.
+    - Click this button to automatically insert the appropriate tag at the beginning of your commit message.
+
+3. **Complete the Commit**:
+    - Add your commit details after the tag.
+    - Stage your changes if they aren't already.
+    - Commit your changes.
+
+## Features
+
+-   **Insert Tag Button**: Easily insert tags into your commit messages using the **Insert Tag into Commit Message** button in the Source Control view.
+-
+
 ## Extension Settings
 
 This extension contributes the following settings:
