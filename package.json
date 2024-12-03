@@ -14,7 +14,6 @@
 	},
 	"main": "./extension.js",
 	"activationEvents": [
-		"onCommand:monorepo-tagger.insertTag",
 		"onView:scm"
 	],
 	"contributes": {
@@ -24,9 +23,22 @@
 				"title": "Insert Tag into Commit Message",
 				"category": "Monorepo Tagger",
 				"icon": "$(tag)"
+			},
+			{
+				"command": "monorepo-tagger.createConfig",
+				"title": "Create Tagger Config",
+				"category": "Monorepo Tagger",
+				"icon": "$(new-file)"
 			}
 		],
 		"menus": {
+			"commandPalette": [
+				{
+					"command": "monorepo-tagger.createConfig",
+					"when": "workspaceFolderCount > 0",
+					"group": "navigation"
+				}
+			],
 			"scm/title": [
 				{
 					"command": "monorepo-tagger.insertTag",
