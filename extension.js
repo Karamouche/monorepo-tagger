@@ -110,8 +110,17 @@ function activate(context) {
 			const currentMessage = repo.inputBox.value;
 
 			// Avoid duplicating the tag
+			const emojiRegex = /^[\p{Emoji_Presentation}\p{Emoji}\u200d]+/u;
+			const emojiMatch = currentMessage.match(emojiRegex);
 			if (!currentMessage.startsWith(tag)) {
-				repo.inputBox.value = `${tag} ${currentMessage}`;
+				// Insert after gitmojis
+				if (emojiMatch) {
+					repo.inputBox.value = `${
+						emojiMatch[0]
+					} ${tag} ${currentMessage.slice(emojiMatch[0].length)}`;
+				} else {
+					repo.inputBox.value = `${tag} ${currentMessage}`;
+				}
 			}
 
 			// Show Source Control view
