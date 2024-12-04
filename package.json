@@ -2,7 +2,7 @@
 	"name": "monorepo-tagger",
 	"displayName": "Monorepo Tagger",
 	"description": "Prepends a tag to commit messages based on the monorepo folder.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"icon": "icon.png",
 	"publisher": "karamouche",
 	"engines": {
